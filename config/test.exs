@@ -10,10 +10,18 @@ config :river_place_app, RiverPlaceApp.Endpoint,
 config :logger, level: :warn
 
 # Configure your database
+# config :river_place_app, RiverPlaceApp.Repo,
+#   adapter: Ecto.Adapters.Postgres,
+#   username: "postgres",
+#   password: "postgres",
+#   database: "river_place_app_test",
+#   hostname: "localhost",
+#   pool: Ecto.Adapters.SQL.Sandbox
+
 config :river_place_app, RiverPlaceApp.Repo,
-  adapter: Ecto.Adapters.Postgres,
-  username: "postgres",
-  password: "postgres",
+  adapter: Ecto.Adapters.MySQL,
+  username: "root",
+  password: "password",
   database: "river_place_app_test",
-  hostname: "localhost",
+  hostname: "localhost"
   pool: Ecto.Adapters.SQL.Sandbox

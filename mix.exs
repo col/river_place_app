@@ -19,7 +19,7 @@ defmodule RiverPlaceApp.Mixfile do
   def application do
     [mod: {RiverPlaceApp, []},
      applications: [:phoenix, :phoenix_html, :cowboy, :logger, :gettext,
-                    :phoenix_ecto, :postgrex, :oauth2_server]]
+                    :phoenix_ecto, :postgrex, :oauth2_server, :comeonin]]
   end
 
   # Specifies which paths to compile per environment.
@@ -38,7 +38,8 @@ defmodule RiverPlaceApp.Mixfile do
      {:gettext, "~> 0.9"},
      {:cowboy, "~> 1.0"},
      {:oauth2_server, "~> 0.1.1"},
-     {:mariaex, "~> 0.7.7", override: true}]
+     {:mariaex, "~> 0.7.7", override: true},
+     {:comeonin, "~> 2.0"}]
   end
 
   # Aliases are shortcut or tasks specific to the current project.

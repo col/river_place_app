@@ -20,23 +20,24 @@ defmodule RiverPlaceApp.Router do
     plug Oauth2Server.Secured
   end
 
-  scope "/api", RiverPlaceApp do
-    pipe_through :api
-
-    scope "/v1", v1, as: :v1 do
-      post "/login", UserApiController, :login
-
-      scope "/auth", auth, as: :auth do
-        pipe_through :secured_api
-        post "/get-details", UserApiAuthController, :get_details
-      end
-    end
-  end
+  # scope "/api", RiverPlaceApp do
+  #   pipe_through :api
+  #
+  #   scope "/v1", v1, as: :v1 do
+  #     post "/login", UserApiController, :login
+  #
+  #     scope "/auth", auth, as: :auth do
+  #       pipe_through :secured_api
+  #       post "/get-details", UserApiAuthController, :get_details
+  #     end
+  #   end
+  # end
 
   scope "/", RiverPlaceApp do
     pipe_through :browser # Use the default browser stack
 
     get "/", PageController, :index
+    resources "/users", UserController
   end
 
   # Other scopes may use custom stacks.

@@ -33,10 +33,17 @@ config :logger, :console, format: "[$level] $message\n"
 config :phoenix, :stacktrace_depth, 20
 
 # Configure your database
+# config :river_place_app, RiverPlaceApp.Repo,
+#   adapter: Ecto.Adapters.Postgres,
+#   username: "postgres",
+#   password: "postgres",
+#   database: "river_place_app_dev",
+#   hostname: "localhost",
+#   pool_size: 10
+
 config :river_place_app, RiverPlaceApp.Repo,
-  adapter: Ecto.Adapters.Postgres,
-  username: "postgres",
-  password: "postgres",
+  adapter: Ecto.Adapters.MySQL,
+  username: "root",
+  password: "password",
   database: "river_place_app_dev",
-  hostname: "localhost",
-  pool_size: 10
+  hostname: "localhost"
