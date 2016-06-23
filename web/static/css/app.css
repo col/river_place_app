@@ -19,9 +19,6 @@ form.link, form.button {
 }
 
 /* Custom page header */
-.header {
-  border-bottom: 1px solid #e5e5e5;
-}
 .logo {
   width: 519px;
   height: 71px;
@@ -69,7 +66,7 @@ form.link, form.button {
   }
   /* Space out the masthead */
   .header {
-    margin-bottom: 30px;
+    margin-bottom: 20px;
   }
   /* Remove the bottom border on the jumbotron for visual effect */
   .jumbotron {
