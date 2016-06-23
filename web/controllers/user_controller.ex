@@ -1,8 +1,8 @@
 defmodule RiverPlaceApp.UserController do
   use RiverPlaceApp.Web, :controller
-
   alias RiverPlaceApp.User
 
+  plug :authenticate when action in [:index, :show]
   plug :scrub_params, "user" when action in [:create, :update]
 
   def index(conn, _params) do
@@ -16,14 +16,16 @@ defmodule RiverPlaceApp.UserController do
   end
 
   def create(conn, %{"user" => user_params}) do
-    changeset = User.changeset(%User{}, user_params)
+    changeset = User.registration_changeset(%User{}, user_params)
 
     case Repo.insert(changeset) do
-      {:ok, _user} ->
+      {:ok, user} ->
         conn
+        |> RiverPlaceApp.Auth.login(user)
         |> put_flash(:info, "User created successfully.")
         |> redirect(to: user_path(conn, :index))
       {:error, changeset} ->
+        IO.puts inspect(changeset.errors)
         render(conn, "new.html", changeset: changeset)
     end
   end
@@ -64,4 +66,15 @@ defmodule RiverPlaceApp.UserController do
     |> put_flash(:info, "User deleted successfully.")
     |> redirect(to: user_path(conn, :index))
   end
+
+  defp authenticate(conn, _opts) do
+    if conn.assigns.current_user do
+      conn
+    else
+      conn
+      |> put_flash(:error, "You must be logged in to access that page") |> redirect(to: page_path(conn, :index))
+      |> halt()
+    end
+  end
+
 end
