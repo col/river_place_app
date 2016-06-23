@@ -37,7 +37,8 @@ defmodule RiverPlaceApp.Mixfile do
      {:phoenix_live_reload, "~> 1.0", only: :dev},
      {:gettext, "~> 0.9"},
      {:cowboy, "~> 1.0"},
-     {:oauth2_server, "~> 0.1.1"}]
+     {:oauth2_server, "~> 0.1.1"},
+     {:mariaex, "~> 0.7.7", override: true}]
   end
 
   # Aliases are shortcut or tasks specific to the current project.
