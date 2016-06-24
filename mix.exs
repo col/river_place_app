@@ -39,7 +39,11 @@ defmodule RiverPlaceApp.Mixfile do
      {:cowboy, "~> 1.0"},
      {:oauth2_server, "~> 0.1.1"},
      {:mariaex, "~> 0.7.7", override: true},
-     {:comeonin, "~> 2.0"}]
+     {:comeonin, "~> 2.0"},
+     # Adding plug as oauth2_server doesn't seem to include it as a dependency. 🤔
+     # Error in prod: == Compilation error on file lib/plugs/secured.ex ==
+      # ** (CompileError) lib/plugs/secured.ex:2: module Plug.Conn is not loaded and could not be found
+     {:plug, "~> 1.1.6"}]
   end
 
   # Aliases are shortcut or tasks specific to the current project.
