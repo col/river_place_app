@@ -45,7 +45,6 @@ defmodule RiverPlaceApp.Auth do
       conn
     else
       IO.puts "Request URL = #{request_url(conn)}"
-
       conn
       |> put_flash(:error, "You must be logged in to access that page")
       |> put_session(:requested_url, request_url(conn))
