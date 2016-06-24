@@ -8,6 +8,6 @@ config :river_place_app, RiverPlaceApp.Endpoint,
 
 # Configure your database
 config :river_place_app, RiverPlaceApp.Repo,
-  adapter: Ecto.Adapters.Postgres,
+  adapter: Ecto.Adapters.MySQL,
   url: System.get_env("DATABASE_URL"),
   pool_size: 20
