@@ -14,11 +14,14 @@ defmodule RiverPlaceApp.AuthorizeController do
     # access_token, token_type="access?", expires_in=3600, scope=scope, state=state
 
     user = conn.assigns.current_user
-    Oauth2Server.Repo.start_link    
+    Oauth2Server.Repo.start_link
     oauth_client = Oauth2Server.Repo.get_by(Oauth2Server.OauthClient, random_id: params["client_id"])
     {:ok, oauth_access_token} = Authenticator.generate_access_token(oauth_client, user)
 
-    redirect(conn, external: "#{params["redirect_uri"]}?access_token=#{oauth_access_token.token}&token_type=access&expires_in=3600&scope=#{params["scope"]}&state=#{params["state"]}")
+    redirect_uri = "https://pitangui.amazon.com/spa/skill/account-linking-status.html?vendorId=M3DGPNXN6KNV76"
+    url = "#{redirect_uri}&access_token=#{oauth_access_token.token}&token_type=access&expires_in=3600&scope=#{params["scope"]}&state=#{params["state"]}"
+    IO.puts "Redirecting auth to #{url}"
+    redirect(conn, external: url)
   end
 
 end
