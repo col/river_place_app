@@ -3,6 +3,7 @@ defmodule RiverPlaceApp.User do
 
   schema "users" do
     field :name, :string
+    field :email, :string
     field :username, :string
     field :new_password, :string, virtual: true
     field :password, :string
@@ -10,7 +11,7 @@ defmodule RiverPlaceApp.User do
     timestamps
   end
 
-  @required_fields ~w(name username)
+  @required_fields ~w(name username email)
   @optional_fields ~w(password)
 
   @doc """
