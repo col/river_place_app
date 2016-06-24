@@ -1,33 +1,24 @@
 defmodule RiverPlaceApp.AuthorizeController do
   use RiverPlaceApp.Web, :controller
-
   alias Oauth2Server.Authenticator
 
+  plug :authenticate_user when action in [:index]
+
   def index(conn, params) do
-    # IO.puts inspect(params)
-    # render conn, "index.html"
     IO.puts "AuthorizeController.index params:#{inspect(params)}"
-    
+
+    # Implicit Grant Request Params
+    # response_type=token, client_id=, redirect_uri=, scope, state
+
+    # Implicit Grant Response params
+    # access_token, token_type="access?", expires_in=3600, scope=scope, state=state
+
     user = conn.assigns.current_user
+    Oauth2Server.Repo.start_link    
+    oauth_client = Oauth2Server.Repo.get_by(Oauth2Server.OauthClient, random_id: params["client_id"])
+    {:ok, oauth_access_token} = Authenticator.generate_access_token(oauth_client, user)
 
-    oauth_params = %{
-      "client_id" => params["client_id"],
-      "secret" => "kX6MTpJe5DlmiDrxQEhTp_oWwIyt8sR5uC2TLDpu",
-      "grant_type" => "password",
-      "email" => user.email,
-      "password" => "111111"
-    }
-    IO.puts "Authenticator.validate #{inspect(oauth_params)}"
-    res = Authenticator.validate(oauth_params)
-
-    case res.code do
-      200 ->
-        json conn, %{access_token: res.access_token, refresh_token: res.refresh_token, expiration: res.expires_at}
-      400 ->
-        conn |> put_status(400) |> json(%{"message": res.message})
-      nil ->
-        conn |> put_status(400) |> json(%{"message": "Invalid oauth credentials."})
-    end
+    redirect(conn, external: "#{params["redirect_uri"]}?access_token=#{oauth_access_token.token}&token_type=access&expires_in=3600&scope=#{params["scope"]}&state=#{params["state"]}")
   end
 
 end

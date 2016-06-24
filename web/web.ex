@@ -36,6 +36,7 @@ defmodule RiverPlaceApp.Web do
 
       import RiverPlaceApp.Router.Helpers
       import RiverPlaceApp.Gettext
+      import RiverPlaceApp.Auth, only: [authenticate_user: 2]
     end
   end
 
@@ -58,6 +59,8 @@ defmodule RiverPlaceApp.Web do
   def router do
     quote do
       use Phoenix.Router
+
+      import RiverPlaceApp.Auth, only: [authenticate_user: 2]
     end
   end
 

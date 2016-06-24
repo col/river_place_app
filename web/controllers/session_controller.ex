@@ -10,10 +10,21 @@ defmodule RiverPlaceApp.SessionController do
       {:ok, conn} ->
         conn
         |> put_flash(:info, "Welcome back!")
-        |> redirect(to: page_path(conn, :index))
+        |> redirect(external: after_login_url(conn))
       {:error, _reason, conn} ->
         conn
         |> put_flash(:error, "Invalid username/password combination") |> render("new.html")
+    end
+  end
+
+  def after_login_url(conn) do
+    case get_session(conn, :requested_url) do
+      nil ->
+        page_url(conn, :index)
+      url ->
+        IO.puts "Redirecting to #{url}"
+        put_session(conn, :requested_url, nil)
+        url
     end
   end
 

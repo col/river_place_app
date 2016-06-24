@@ -1,4 +1,8 @@
-defmodule RiverPlaceApp.Auth do import Plug.Conn
+defmodule RiverPlaceApp.Auth do
+  import Plug.Conn
+  import Phoenix.Controller
+  alias RiverPlaceApp.Router.Helpers
+
   def init(opts) do
     Keyword.fetch!(opts, :repo)
   end
@@ -35,4 +39,25 @@ defmodule RiverPlaceApp.Auth do import Plug.Conn
   def logout(conn) do
     configure_session(conn, drop: true)
   end
+
+  def authenticate_user(conn, _opts) do
+    if conn.assigns.current_user do
+      conn
+    else
+      IO.puts "Request URL = #{request_url(conn)}"
+
+      conn
+      |> put_flash(:error, "You must be logged in to access that page")
+      |> put_session(:requested_url, request_url(conn))
+      |> redirect(to: Helpers.session_path(conn, :new))
+      |> halt()
+    end
+  end
+
+  def request_url(conn) do
+    port = if conn.port == 80 do "" else ":#{conn.port}" end
+    query = if conn.query_string == "" do "" else "?#{conn.query_string}" end
+    "#{conn.scheme}://#{conn.host}#{port}#{conn.request_path}#{query}"
+  end
+
 end
