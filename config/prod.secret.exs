@@ -11,3 +11,8 @@ config :river_place_app, RiverPlaceApp.Repo,
   adapter: Ecto.Adapters.MySQL,
   url: System.get_env("DATABASE_URL"),
   pool_size: 20
+
+config :oauth2_server, Oauth2Server.Repo,
+  adapter: Ecto.Adapters.MySQL,
+  url: System.get_env("DATABASE_URL"),
+  pool_size: 20
