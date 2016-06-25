@@ -65,7 +65,8 @@ defmodule RiverPlaceSkill do
 
   defp create_booking(booking = %{time: time, available: []}, response) do
     response
-      |> say_ssml("<speak>Sorry. #{say_time(time)} is not available</speak>")
+      # |> say_ssml("<speak>Sorry. #{say_time(time)} is not available</speak>")
+      |> say("Sorry. #{time} is not available")
       |> reprompt("Would you like to choose a different time?")
       |> Response.set_attribute("date", booking.date)
       |> Response.set_attribute("time", booking.time)
@@ -76,7 +77,8 @@ defmodule RiverPlaceSkill do
     case @river_place_api.create_booking(date, first) do
       :ok ->
         response
-          |> say_ssml("<speak>OK, I've booked #{first.facility_name} for you at #{say_time(time)}</speak>")
+          # |> say_ssml("<speak>OK, I've booked #{first.facility_name} for you at #{say_time(time)}</speak>")
+          |> say("OK, I've booked #{first.facility_name} for you at #{time}")
           |> should_end_session(true)
       :error ->
         response
