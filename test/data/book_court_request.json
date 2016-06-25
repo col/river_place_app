@@ -1,0 +1,22 @@
+{
+  "session": {
+    "new": false,
+    "sessionId": "session1234",
+    "attributes": {},
+    "user": {
+      "userId": "123456",
+      "accessToken": "dR_GVx0JYVTS98EyEG_g3Biysn-zpynTuBaKe0Sc"
+    },
+    "application": {
+      "applicationId": "RiverPlaceSkill"
+    }
+  },
+  "version": "1.0",
+  "request": {
+    "intent": {
+      "name": "CreateBooking"
+    },
+    "type": "IntentRequest",
+    "requestId": "request5678"
+  }
+}

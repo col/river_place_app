@@ -21,6 +21,8 @@ defmodule RiverPlaceSkill do
         {:error, "invalid token"}
     oauth_access_token ->
         user = RiverPlaceApp.Repo.get(RiverPlaceApp.User, oauth_access_token.user_id)
+        IO.puts "Logging into riverplace.sg with #{user.rp_username} / #{user.rp_password}"
+        IO.puts "Using module #{@river_place_api}"
         case @river_place_api.login(user.rp_username, user.rp_password) do
           :ok ->
             {:ok, user}

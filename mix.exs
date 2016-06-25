@@ -19,7 +19,8 @@ defmodule RiverPlaceApp.Mixfile do
   def application do
     [mod: {RiverPlaceApp, []},
      applications: [:phoenix, :phoenix_html, :cowboy, :logger, :gettext,
-                    :phoenix_ecto, :postgrex, :oauth2_server, :comeonin, :alexa]]
+                    :phoenix_ecto, :postgrex, :oauth2_server, :comeonin, :alexa,
+                    :river_place]]
   end
 
   # Specifies which paths to compile per environment.

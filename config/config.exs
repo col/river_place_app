@@ -41,3 +41,7 @@ config :oauth2_server, Oauth2Server.Settings,
 
 config :river_place_app, :app_id, "RiverPlaceSkill"
 config :river_place_app, :river_place_api, RiverPlaceMock
+
+# Import environment specific config. This must remain at the bottom
+# of this file so it overrides the configuration defined above.
+import_config "#{Mix.env}.exs"
