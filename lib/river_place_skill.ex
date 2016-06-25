@@ -19,15 +19,17 @@ defmodule RiverPlaceSkill do
     case Repo.get_by(OauthAccessToken, token: Request.access_token(request)) do
       nil ->
         {:error, "invalid token"}
-    oauth_access_token ->
+      oauth_access_token ->
         user = RiverPlaceApp.Repo.get(RiverPlaceApp.User, oauth_access_token.user_id)
-        IO.puts "Logging into riverplace.sg with #{user.rp_username} / #{user.rp_password}"
-        IO.puts "Using module #{@river_place_api}"
-        case @river_place_api.login(user.rp_username, user.rp_password) do
-          :ok ->
-            {:ok, user}
-          :error ->
-            {:error, "Login failed. Please check your username and password"}
+        case @river_place_api.logged_in? do
+          true -> {:ok, user}
+          false -> 
+            IO.puts "Logging into riverplace.sg with #{user.rp_username} / #{user.rp_password}"
+            IO.puts "Using module #{@river_place_api}"
+            case @river_place_api.login(user.rp_username, user.rp_password) do
+              :ok -> {:ok, user}
+              :error -> {:error, "Login failed. Please check your username and password"}
+            end
         end
     end
   end
