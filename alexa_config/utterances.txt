@@ -1,0 +1,80 @@
+CreateBooking book me a tennis court
+CreateBooking I want to play tennis
+CreateBooking {date}
+CreateBooking {time}
+CreateBooking book a court {date}
+CreateBooking book a court for {date}
+CreateBooking book a court on {date}
+CreateBooking book a court on the {date}
+CreateBooking book a tennis court {date}
+CreateBooking book a tennis court for {date}
+CreateBooking book a tennis court on {date}
+CreateBooking book a tennis court on the {date}
+CreateBooking book me a court {date}
+CreateBooking book me a court for {date}
+CreateBooking book me a court on {date}
+CreateBooking book me a court on the {date}
+CreateBooking book me a tennis court {date}
+CreateBooking book me a tennis court for {date}
+CreateBooking book me a tennis court on {date}
+CreateBooking book me a tennis court on the {date}
+CreateBooking book a court {time}
+CreateBooking book a court for {time}
+CreateBooking book a court at {time}
+CreateBooking book a tennis court {time}
+CreateBooking book a tennis court for {time}
+CreateBooking book a tennis court at {time}
+CreateBooking book me a court {time}
+CreateBooking book me a court for {time}
+CreateBooking book me a court at {time}
+CreateBooking book me a tennis court {time}
+CreateBooking book me a tennis court for {time}
+CreateBooking book me a tennis court at {time}
+CreateBooking book a court {date} {time}
+CreateBooking book a court {date} for {time}
+CreateBooking book a court {date} at {time}
+CreateBooking book a court for {date} {time}
+CreateBooking book a court for {date} for {time}
+CreateBooking book a court for {date} at {time}
+CreateBooking book a court on {date} {time}
+CreateBooking book a court on {date} for {time}
+CreateBooking book a court on {date} at {time}
+CreateBooking book a court on the {date} {time}
+CreateBooking book a court on the {date} for {time}
+CreateBooking book a court on the {date} at {time}
+CreateBooking book a tennis court {date} {time}
+CreateBooking book a tennis court {date} for {time}
+CreateBooking book a tennis court {date} at {time}
+CreateBooking book a tennis court for {date} {time}
+CreateBooking book a tennis court for {date} for {time}
+CreateBooking book a tennis court for {date} at {time}
+CreateBooking book a tennis court on {date} {time}
+CreateBooking book a tennis court on {date} for {time}
+CreateBooking book a tennis court on {date} at {time}
+CreateBooking book a tennis court on the {date} {time}
+CreateBooking book a tennis court on the {date} for {time}
+CreateBooking book a tennis court on the {date} at {time}
+CreateBooking book me a court {date} {time}
+CreateBooking book me a court {date} for {time}
+CreateBooking book me a court {date} at {time}
+CreateBooking book me a court for {date} {time}
+CreateBooking book me a court for {date} for {time}
+CreateBooking book me a court for {date} at {time}
+CreateBooking book me a court on {date} {time}
+CreateBooking book me a court on {date} for {time}
+CreateBooking book me a court on {date} at {time}
+CreateBooking book me a court on the {date} {time}
+CreateBooking book me a court on the {date} for {time}
+CreateBooking book me a court on the {date} at {time}
+CreateBooking book me a tennis court {date} {time}
+CreateBooking book me a tennis court {date} for {time}
+CreateBooking book me a tennis court {date} at {time}
+CreateBooking book me a tennis court for {date} {time}
+CreateBooking book me a tennis court for {date} for {time}
+CreateBooking book me a tennis court for {date} at {time}
+CreateBooking book me a tennis court on {date} {time}
+CreateBooking book me a tennis court on {date} for {time}
+CreateBooking book me a tennis court on {date} at {time}
+CreateBooking book me a tennis court on the {date} {time}
+CreateBooking book me a tennis court on the {date} for {time}
+CreateBooking book me a tennis court on the {date} at {time}

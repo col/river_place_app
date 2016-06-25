@@ -28,13 +28,16 @@ config :phoenix, :generators,
   migration: true,
   binary_id: false
 
-config :oauth2_server, Oauth2Server.Repo,
-  adapter: Ecto.Adapters.MySQL,
-  username: "root",
-  password: "password",
-  database: "river_place_app_dev",
-  hostname: "localhost"
+# config :oauth2_server, Oauth2Server.Repo,
+#   adapter: Ecto.Adapters.MySQL,
+#   username: "root",
+#   password: "password",
+#   database: "river_place_app_dev",
+#   hostname: "localhost"
 
 config :oauth2_server, Oauth2Server.Settings,
   access_token_expiration: 3600,
   refresh_token_expiration: 3600
+
+config :river_place_app, :app_id, "RiverPlaceSkill"
+config :river_place_app, :river_place_api, RiverPlaceMock

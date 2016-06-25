@@ -3,7 +3,7 @@ defmodule RiverPlaceApp.UserTest do
 
   alias RiverPlaceApp.User
 
-  @valid_attrs %{name: "some content", password: "some content", username: "some content"}
+  @valid_attrs %{name: "some content", new_password: "some content", username: "some content", email: "asdf"}
   @invalid_attrs %{}
 
   test "changeset with valid attributes" do

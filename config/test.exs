@@ -9,19 +9,22 @@ config :river_place_app, RiverPlaceApp.Endpoint,
 # Print only warnings and errors during test
 config :logger, level: :warn
 
-# Configure your database
-# config :river_place_app, RiverPlaceApp.Repo,
-#   adapter: Ecto.Adapters.Postgres,
-#   username: "postgres",
-#   password: "postgres",
-#   database: "river_place_app_test",
-#   hostname: "localhost",
-#   pool: Ecto.Adapters.SQL.Sandbox
-
 config :river_place_app, RiverPlaceApp.Repo,
   adapter: Ecto.Adapters.MySQL,
   username: "root",
   password: "password",
   database: "river_place_app_test",
   hostname: "localhost"
-  pool: Ecto.Adapters.SQL.Sandbox
+  # pool: 10
+  # pool: Ecto.Adapters.SQL.Sandbox
+
+config :oauth2_server, Oauth2Server.Repo,
+  adapter: Ecto.Adapters.MySQL,
+  username: "root",
+  password: "password",
+  database: "river_place_app_test",
+  hostname: "localhost"
+  # pool: 10
+  # pool: Ecto.Adapters.SQL.Sandbox
+
+config :river_place_app, :river_place_api, RiverPlaceMock

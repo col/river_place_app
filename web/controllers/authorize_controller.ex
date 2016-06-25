@@ -20,7 +20,6 @@ defmodule RiverPlaceApp.AuthorizeController do
 
     token_type = "Bearer"
     redirect_uri = "https://pitangui.amazon.com/spa/skill/account-linking-status.html?vendorId=M3DGPNXN6KNV76"
-    # url = "#{redirect_uri}&access_token=#{oauth_access_token.token}&token_type=#{token_type}&expires_in=360&scope=#{params["scope"]}&state=#{params["state"]}"
     url = "#{redirect_uri}#access_token=#{oauth_access_token.token}&token_type=#{token_type}&state=#{params["state"]}"
     IO.puts "Redirecting auth to #{url}"
     redirect(conn, external: url)

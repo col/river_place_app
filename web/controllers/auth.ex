@@ -8,9 +8,14 @@ defmodule RiverPlaceApp.Auth do
   end
 
   def call(conn, repo) do
-    user_id = get_session(conn, :user_id)
-    user = user_id && repo.get(RiverPlaceApp.User, user_id)
-    assign(conn, :current_user, user)
+    case conn.assigns do
+      %{current_user: _} ->
+        conn
+      _ ->
+        user_id = get_session(conn, :user_id)
+        user = user_id && repo.get(RiverPlaceApp.User, user_id)
+        assign(conn, :current_user, user)
+    end
   end
 
   def login(conn, user) do

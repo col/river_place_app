@@ -60,6 +60,8 @@ config :logger, level: :info
 #
 #     config :river_place_app, RiverPlaceApp.Endpoint, root: "."
 
+config :river_place_app, :river_place_api, RiverPlace
+
 # Finally import the config/prod.secret.exs
 # which should be versioned separately.
 import_config "prod.secret.exs"

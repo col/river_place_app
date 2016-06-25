@@ -26,9 +26,9 @@ defmodule RiverPlaceApp.ModelCase do
   end
 
   setup tags do
-    unless tags[:async] do
-      Ecto.Adapters.SQL.restart_test_transaction(RiverPlaceApp.Repo, [])
-    end
+    # unless tags[:async] do
+    #   Ecto.Adapters.SQL.restart_test_transaction(RiverPlaceApp.Repo, [])
+    # end
 
     :ok
   end

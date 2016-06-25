@@ -8,11 +8,14 @@ defmodule RiverPlaceApp.User do
     field :new_password, :string, virtual: true
     field :password, :string
 
+    field :rp_username, :string
+    field :rp_password, :string
+
     timestamps
   end
 
   @required_fields ~w(name username email)
-  @optional_fields ~w(password)
+  @optional_fields ~w(rp_username rp_password)
 
   @doc """
   Creates a changeset based on the `model` and `params`.

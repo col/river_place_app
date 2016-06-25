@@ -32,18 +32,20 @@ config :logger, :console, format: "[$level] $message\n"
 # and calculating stacktraces is usually expensive.
 config :phoenix, :stacktrace_depth, 20
 
-# Configure your database
-# config :river_place_app, RiverPlaceApp.Repo,
-#   adapter: Ecto.Adapters.Postgres,
-#   username: "postgres",
-#   password: "postgres",
-#   database: "river_place_app_dev",
-#   hostname: "localhost",
-#   pool_size: 10
-
 config :river_place_app, RiverPlaceApp.Repo,
   adapter: Ecto.Adapters.MySQL,
   username: "root",
   password: "password",
   database: "river_place_app_dev",
-  hostname: "localhost"
+  hostname: "localhost",
+  pool_size: 10
+
+config :oauth2_server, Oauth2Server.Repo,
+    adapter: Ecto.Adapters.MySQL,
+    username: "root",
+    password: "password",
+    database: "river_place_app_dev",
+    hostname: "localhost",
+    pool_size: 10
+
+config :river_place_app, :river_place_api, RiverPlace

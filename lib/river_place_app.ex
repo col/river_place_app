@@ -11,8 +11,10 @@ defmodule RiverPlaceApp do
       supervisor(RiverPlaceApp.Endpoint, []),
       # Start the Ecto repository
       supervisor(RiverPlaceApp.Repo, []),
+      supervisor(Oauth2Server.Repo, []),
       # Here you could define other workers and supervisors as children
       # worker(RiverPlaceApp.Worker, [arg1, arg2, arg3]),
+      worker(RiverPlaceSkill, [[app_id: Application.get_env(:river_place_app, :app_id)]])
     ]
 
     # See http://elixir-lang.org/docs/stable/elixir/Supervisor.html

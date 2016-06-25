@@ -2,7 +2,7 @@ defmodule RiverPlaceApp.UserController do
   use RiverPlaceApp.Web, :controller
   alias RiverPlaceApp.User
 
-  plug :authenticate_user when action in [:index, :show]
+  plug :authenticate_user when action in [:index, :show, :edit, :update, :delete]
   plug :scrub_params, "user" when action in [:create, :update]
 
   def index(conn, _params) do

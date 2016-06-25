@@ -11,10 +11,25 @@ Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
 
 Ready to run in production? Please [check our deployment guides](http://www.phoenixframework.org/docs/deployment).
 
-## Learn more
+# Example Scenario's
 
-  * Official website: http://www.phoenixframework.org/
-  * Guides: http://phoenixframework.org/docs/overview
-  * Docs: http://hexdocs.pm/phoenix
-  * Mailing list: http://groups.google.com/group/phoenix-talk
-  * Source: https://github.com/phoenixframework/phoenix
+## Example 1
+Me: Alexa, ask River Place to book me a tennis court
+Alexa: Ok. When would you like to play?
+Me: Tonight
+Alexa: What time would you like?
+Me: What times are available?
+Alexa: There are 3 slots available. 5pm, 7pm and 9pm
+Me: Ok, book the 9pm slot please.
+Alexa: OK, I've booked court 2 for you tonight at 9pm
+
+## Example 2
+Me: Alexa, tell River Place I want to play tennis tomorrow at 9am
+Alexa: Both courts are booked at 9am tomorrow. How about 10am?
+Me: Sure. That'll do.
+Alexa: OK, I've booked court 2 for you tomorrow at 10am
+
+# Utterances
+
+I'm using flutterance here so you need to run this command to generate the utterance.txt file.
+``flutterance config/flutterances.txt utterances.txt``

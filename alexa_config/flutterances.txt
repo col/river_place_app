@@ -1,0 +1,7 @@
+CreateBooking book me a tennis court
+CreateBooking I want to play tennis
+CreateBooking {date}
+CreateBooking {time}
+CreateBooking book [me]? a [tennis]? court [for|on|on the]? {date}
+CreateBooking book [me]? a [tennis]? court [for|at]? {time}
+CreateBooking book [me]? a [tennis]? court [for|on|on the]? {date} [for|at]? {time}
