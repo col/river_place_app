@@ -23,7 +23,7 @@ defmodule RiverPlaceSkill do
         user = RiverPlaceApp.Repo.get(RiverPlaceApp.User, oauth_access_token.user_id)
         case @river_place_api.logged_in? do
           true -> {:ok, user}
-          false -> 
+          false ->
             IO.puts "Logging into riverplace.sg with #{user.rp_username} / #{user.rp_password}"
             IO.puts "Using module #{@river_place_api}"
             case @river_place_api.login(user.rp_username, user.rp_password) do
@@ -65,7 +65,7 @@ defmodule RiverPlaceSkill do
 
   defp create_booking(booking = %{time: time, available: []}, response) do
     response
-      |> say_ssml("Sorry. #{say_time(time)} is not available")
+      |> say_ssml("<speak>Sorry. #{say_time(time)} is not available</speak>")
       |> reprompt("Would you like to choose a different time?")
       |> Response.set_attribute("date", booking.date)
       |> Response.set_attribute("time", booking.time)
@@ -76,7 +76,7 @@ defmodule RiverPlaceSkill do
     case @river_place_api.create_booking(date, first) do
       :ok ->
         response
-          |> say_ssml("OK, I've booked #{first.facility_name} for you at #{say_time(time)}")
+          |> say_ssml("<speak>OK, I've booked #{first.facility_name} for you at #{say_time(time)}</speak>")
           |> should_end_session(true)
       :error ->
         response

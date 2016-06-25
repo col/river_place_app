@@ -14,7 +14,11 @@
   "version": "1.0",
   "request": {
     "intent": {
-      "name": "CreateBooking"
+      "name": "CreateBooking",
+      "slots": {
+        "date": { "name": "date", "value": "2016-06-26" },
+        "time": { "name": "time", "value": "14:00" }
+      }
     },
     "type": "IntentRequest",
     "requestId": "request5678"

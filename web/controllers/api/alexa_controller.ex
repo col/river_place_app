@@ -5,6 +5,7 @@ defmodule RiverPlaceApp.Api.AlexaController do
   def handle_request(conn, params) do
     request = Request.from_params(params)
     response = Alexa.handle_request(request)
+    IO.puts "Response = #{Poison.encode!(response)}"
     conn = send_resp(conn, 200, Poison.encode!(response))
     conn = %{conn | resp_headers: [{"content-type", "application/json"}]}
     conn
