@@ -1,5 +1,7 @@
 # RiverPlaceApp
 
+## Development
+
 To start your Phoenix app:
 
   * Install dependencies with `mix deps.get`
@@ -11,7 +13,8 @@ Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
 
 Ready to run in production? Please [check our deployment guides](http://www.phoenixframework.org/docs/deployment).
 
-# Example Scenario's
+
+# Alexa Voice Scenario's
 
 ## Example 1
 Me: Alexa, ask River Place to book me a tennis court
@@ -33,3 +36,14 @@ Alexa: OK, I've booked court 2 for you tomorrow at 10am
 
 I'm using flutterance here so you need to run this command to generate the utterance.txt file.
 ``flutterance config/flutterances.txt utterances.txt``
+
+# TODO
+
+- Big code clean up, tests, etc
+- Switch to postgres, MySQL is ... not good.
+- Add redirect_url to the oauth_clients table
+- Fix river_place so that it can manage multiple session tokens
+- Add telegram chatbot integration
+  - Try to reuse the Alexa config if possible
+  - Code once works on alexa and chat?
+- 
