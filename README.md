@@ -32,6 +32,11 @@ Alexa: Both courts are booked at 9am tomorrow. How about 10am?
 Me: Sure. That'll do.
 Alexa: OK, I've booked court 2 for you tomorrow at 10am
 
+## Example 3
+Me: Alexa, what time slots are available after 8pm on Thursday at river place?
+Alexa: Sorry there are no time slots available after 8pm. The earliest time available is at 5pm.
+
+
 # Utterances
 
 I'm using flutterance here so you need to run this command to generate the utterance.txt file.
@@ -46,4 +51,4 @@ I'm using flutterance here so you need to run this command to generate the utter
 - Add telegram chatbot integration
   - Try to reuse the Alexa config if possible
   - Code once works on alexa and chat?
-- 
+- Handle Launch, LinkAccount and Stop alexa intents
