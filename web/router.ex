@@ -11,7 +11,8 @@ defmodule RiverPlaceApp.Router do
   end
 
   pipeline :api do
-    plug :accepts, ["json"]
+    plug AlexaVerifier.JSONParser
+    plug AlexaVerifier.Plug
   end
 
   pipeline :secured_api do

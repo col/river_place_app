@@ -43,7 +43,8 @@ defmodule RiverPlaceApp.Mixfile do
      {:comeonin, "~> 2.0"},
      {:alexa, "~> 0.1.15"},
      {:river_place, github: "col/river_place"},
-     {:pavlov, git: "https://github.com/sproutapp/pavlov", only: :test}]
+     {:pavlov, git: "https://github.com/sproutapp/pavlov", only: :test},
+     {:alexa_verifier, "~> 0.1.0"}]
   end
 
   # Aliases are shortcut or tasks specific to the current project.
