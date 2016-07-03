@@ -8,13 +8,6 @@ defmodule RiverPlaceSkill do
   @river_place_api Application.get_env(:river_place_app, :river_place_api)
   # @river_place_api RiverPlaceMock
 
-  def handle_intent("Logout", request, response) do
-    @river_place_api.logout
-    response
-      |> say("Good bye")
-      |> should_end_session(true)
-  end
-
   def login(%{session: %{user: %{accessToken: nil}}}) do
     {:error, "invalid token"}
   end
@@ -47,51 +40,60 @@ defmodule RiverPlaceSkill do
 
   def handle_launch(request, response) do
     case login(request) do
-      {:ok, user} ->
+      {:ok, _} ->
         response
           |> say("Ok. When would you like to play?")
           |> should_end_session(false)
       {:error, msg} ->
+        IO.puts "Login Failed: #{msg}"
         handle_auth_failure(response)
     end
   end
 
-  def handle_intent("AMAZON.HelpIntent", request, response) do
+  def handle_intent("Logout", _, response) do
+    @river_place_api.logout
+    response
+      |> say("Good bye")
+      |> should_end_session(true)
+  end
+  
+  def handle_intent("AMAZON.HelpIntent", _, response) do
     response
       |> say("Ask me to book you a tennis court and tell me the which day and time you'd like to play.")
       |> should_end_session(false)
   end
 
-  def handle_intent("AMAZON.StopIntent", request, response) do
+  def handle_intent("AMAZON.StopIntent", _, response) do
     response |> should_end_session(true)
   end
 
   def handle_intent("CreateBooking", request, response) do
     case login(request) do
-      {:ok, user} ->
+      {:ok, _} ->
         booking(request) |> create_booking(response)
       {:error, msg} ->
+        IO.puts "Login Failed: #{msg}"
         handle_auth_failure(response)
     end
   end
 
-  defp create_booking(booking = %{date: nil, time: nil}, response) do
+  defp create_booking(%{date: nil, time: nil}, response) do
     response
       |> say("Ok. When would you like to play?")
       |> should_end_session(false)
   end
 
-  defp create_booking(booking = %{date: date, time: nil}, response) do
+  defp create_booking(%{date: date, time: nil}, response) do
     response
       |> say("What time would you like to play?")
-      |> Response.set_attribute("date", booking.date)
+      |> Response.set_attribute("date", date)
       |> should_end_session(false)
   end
 
-  defp create_booking(booking = %{date: nil, time: time}, response) do
+  defp create_booking(%{date: nil, time: time}, response) do
     response
       |> say("What day would you like to play?")
-      |> Response.set_attribute("time", booking.time)
+      |> Response.set_attribute("time", time)
       |> should_end_session(false)
   end
 
@@ -104,7 +106,7 @@ defmodule RiverPlaceSkill do
       |> should_end_session(false)
   end
 
-  defp create_booking(booking = %{date: date, time: time, available: [first|_]}, response) do
+  defp create_booking(%{date: date, time: time, available: [first|_]}, response) do
     case @river_place_api.create_booking(date, first) do
       :ok ->
         response
@@ -140,11 +142,11 @@ defmodule RiverPlaceSkill do
     []
   end
 
-  defp available_time_slots(date, nil) do
+  defp available_time_slots(_, nil) do
     []
   end
 
-  defp available_time_slots(nil, time) do
+  defp available_time_slots(nil, _) do
     []
   end
 

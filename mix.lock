@@ -1,5 +1,5 @@
 %{"alexa": {:git, "https://github.com/col/alexa.git", "91ab0956938bdd4c2002fbaca1b9d5294e24254c", []},
-  "alexa_verifier": {:hex, :alexa_verifier, "0.1.0", "f5f830b883e9826fd32bd960c1540374b1a68107f0cfed09c9896b4c0285c8a5", [:mix], [{:plug, "~> 1.1.6", [hex: :plug, optional: false]}, {:timex, "~> 2.2.1", [hex: :timex, optional: false]}, {:httpoison, "~> 0.9.0", [hex: :httpoison, optional: false]}, {:porcelain, "~> 2.0", [hex: :porcelain, optional: false]}]},
+  "alexa_verifier": {:git, "https://github.com/col/alexa_verifier.git", "c8a07df6b2113c20b06f60345b1da0606999321a", []},
   "certifi": {:hex, :certifi, "0.4.0", "a7966efb868b179023618d29a407548f70c52466bf1849b9e8ebd0e34b7ea11f", [:rebar3], []},
   "combine": {:hex, :combine, "0.9.1", "5fd778ee77032ae593bf79aedb8519d9e36283e4f869abd98c2d6029ca476db8", [:mix], []},
   "comeonin": {:hex, :comeonin, "2.5.0", "fb0be31c0c70094a5a14c80ffd991865d712b180dadb13d41f730cdab432b1d7", [:mix, :make, :make], []},
