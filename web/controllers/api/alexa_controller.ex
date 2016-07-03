@@ -1,11 +1,12 @@
 defmodule RiverPlaceApp.Api.AlexaController do
   use RiverPlaceApp.Web, :controller
   alias Alexa.Request
+  require Logger
 
   def handle_request(conn, params) do
     request = Request.from_params(params)
     response = Alexa.handle_request(request)
-    IO.puts "Response = #{Poison.encode!(response)}"
+    Logger.debug "Response = #{Poison.encode!(response)}"
     conn = send_resp(conn, 200, Poison.encode!(response))
     conn = %{conn | resp_headers: [{"content-type", "application/json"}]}
     conn
