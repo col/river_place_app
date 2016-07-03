@@ -15,6 +15,10 @@ defmodule RiverPlaceSkill do
       |> should_end_session(true)
   end
 
+  def login(%{session: %{user: %{accessToken: nil}}}) do
+    {:error, "invalid token"}
+  end
+
   def login(request) do
     case Repo.get_by(OauthAccessToken, token: Request.access_token(request)) do
       nil ->
@@ -34,12 +38,40 @@ defmodule RiverPlaceSkill do
     end
   end
 
+  def handle_auth_failure(response) do
+    response
+      |> say("Please link to your River Place account using the Alexa app")
+      |> card("LinkAccount", "Link Account", "You can link your River Place account here")
+      |> should_end_session(true)
+  end
+
+  def handle_launch(request, response) do
+    case login(request) do
+      {:ok, user} ->
+        response
+          |> say("Ok. When would you like to play?")
+          |> should_end_session(false)
+      {:error, msg} ->
+        handle_auth_failure(response)
+    end
+  end
+
+  def handle_intent("AMAZON.HelpIntent", request, response) do
+    response
+      |> say("Ask me to book you a tennis court and tell me the which day and time you'd like to play.")
+      |> should_end_session(false)
+  end
+
+  def handle_intent("AMAZON.StopIntent", request, response) do
+    response |> should_end_session(true)
+  end
+
   def handle_intent("CreateBooking", request, response) do
     case login(request) do
       {:ok, user} ->
         booking(request) |> create_booking(response)
       {:error, msg} ->
-        response |> say(msg)
+        handle_auth_failure(response)
     end
   end
 
@@ -65,7 +97,6 @@ defmodule RiverPlaceSkill do
 
   defp create_booking(booking = %{time: time, available: []}, response) do
     response
-      # |> say_ssml("<speak>Sorry. #{say_time(time)} is not available</speak>")
       |> say("Sorry. #{time} is not available")
       |> reprompt("Would you like to choose a different time?")
       |> Response.set_attribute("date", booking.date)
@@ -77,7 +108,6 @@ defmodule RiverPlaceSkill do
     case @river_place_api.create_booking(date, first) do
       :ok ->
         response
-          # |> say_ssml("<speak>OK, I've booked #{first.facility_name} for you at #{say_time(time)}</speak>")
           |> say("OK, I've booked #{first.facility_name} for you at #{time}")
           |> should_end_session(true)
       :error ->

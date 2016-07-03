@@ -1,5 +1,5 @@
 defmodule RiverPlaceSkillTest do
-  use Pavlov.Case
+  use ExUnit.Case
   import Alexa.Response
   alias RiverPlaceSkill.Booking
   alias Alexa.Request
@@ -16,89 +16,203 @@ defmodule RiverPlaceSkillTest do
     RiverPlaceApp.Repo.delete_all(RiverPlaceApp.User)
   end
 
-  def create_request(intent_name, slot_values \\ %{}, attributes \\ %{}) do
-    Request.intent_request("test-app-id", intent_name, nil, slot_values, attributes, "token")
+  def create_request(intent_name, slot_values \\ %{}, attributes \\ %{}, token \\ "token") do
+    Request.intent_request("test-app-id", intent_name, nil, slot_values, attributes, token)
   end
 
-  context "with no existing booking" do
-    before do
-      RiverPlaceSkillTest.clean_db
-      token
-    end
+  def launch_request(token \\ "token") do
+    Request.launch_request("test-app-id", nil, token)
+  end
 
-    let :user do
-      RiverPlaceApp.User.changeset(%RiverPlaceApp.User{}, %{name: "Test", username: "test", email: "test@example.com", new_password: "111111", rp_username: "foo", rp_password: "bar"})
+  setup tags do
+    RiverPlaceSkillTest.clean_db
+    user = RiverPlaceApp.User.changeset(%RiverPlaceApp.User{}, %{name: "Test", username: "test", email: "test@example.com", new_password: "111111", rp_username: "foo", rp_password: "bar"})
       |> RiverPlaceApp.Repo.insert!
-    end
-
-    let :client do
-      Oauth2Server.OauthClient.changeset(%Oauth2Server.OauthClient{}, %{random_id: "client-id", secret: "client-secret", allowed_grant_types: "{\"refresh_token\":true, \"password\":true, \"client_credentials\":true}"})
+    client = Oauth2Server.OauthClient.changeset(%Oauth2Server.OauthClient{}, %{random_id: "client-id", secret: "client-secret", allowed_grant_types: "{\"refresh_token\":true, \"password\":true, \"client_credentials\":true}"})
       |> Oauth2Server.Repo.insert!
-    end
-
-    let :token do
-      Oauth2Server.OauthAccessToken.changeset(%Oauth2Server.OauthAccessToken{}, %{token: "token", expires_at: 1466790237, oauth_client_id: client.id, user_id: user.id})
+    token = Oauth2Server.OauthAccessToken.changeset(%Oauth2Server.OauthAccessToken{}, %{token: "token", expires_at: 1466790237, oauth_client_id: client.id, user_id: user.id})
       |> Oauth2Server.Repo.insert!
-    end
-
-    describe "launching the skill" do
-      let :request, do: RiverPlaceSkillTest.create_request("CreateBooking")
-      subject do: Alexa.handle_request(request)
-
-      it "should respond with a greating" do
-        assert "Ok. When would you like to play?" = say(subject)
-      end
-      it "should leave the session open" do
-        refute should_end_session(subject)
-      end
-    end
-
-    describe "setting a date" do
-      let :request, do: RiverPlaceSkillTest.create_request("CreateBooking", %{"date" => "2016-01-01"})
-      subject do: Alexa.handle_request(request)
-
-      it "should add the date to the session" do
-        assert "2016-01-01" = attribute(subject, "date")
-      end
-      it "should ask for the time of the booking" do
-        assert "What time would you like to play?" = say(subject)
-      end
-      it "should leave the session open" do
-        refute should_end_session(subject)
-      end
-    end
-
-    describe "setting a time" do
-      let :request, do: RiverPlaceSkillTest.create_request("CreateBooking", %{"time" => "18:00"})
-      subject do: Alexa.handle_request(request)
-
-      it "should add the time to the session" do
-        assert "06:00 PM" = attribute(subject, "time")
-      end
-      it "should ask for the time of the booking" do
-        assert "What day would you like to play?" = say(subject)
-      end
-      it "should leave the session open" do
-        refute should_end_session(subject)
-      end
-    end
-
-    describe "setting a time and day" do
-      before do
-        RiverPlaceSkillTest.clean_db
-        token
-      end
-      let :request, do: RiverPlaceSkillTest.create_request("CreateBooking", %{"date" => "2016-01-01", "time" => "07:00"})
-      subject do: Alexa.handle_request(request)
-
-      it "should ask for the time of the booking" do
-        assert "OK, I've booked Court 1 for you at <say-as interpret-as=\"time\" format=\"hms12\">07:00 AM</say-as>" = say_ssml(subject)
-      end
-      it "should leave the session open" do
-        assert should_end_session(subject)
-      end
-    end
-
+    :ok
   end
 
+
+  describe "handle launch when not linked" do
+    setup tags do
+      request = RiverPlaceSkillTest.launch_request("invalid-token")
+      {:ok, request: request}
+    end
+
+    test "should tell the user they need to link their account", %{request: request} do
+      response = Alexa.handle_request(request)
+      assert "Please link to your River Place account using the Alexa app" = say(response)
+    end
+
+    test "should respond with a LinkAccount card", %{request: request} do
+      response = Alexa.handle_request(request)
+      assert %Alexa.Card{type: "LinkAccount", title: "Link Account", content: "You can link your River Place account here"} = card(response)
+    end
+  end
+
+  describe "handle intent when not linked" do
+    setup tags do
+      request = RiverPlaceSkillTest.create_request("CreateBooking", %{}, %{}, "invalid-token")
+      {:ok, request: request}
+    end
+
+    test "should tell the user they need to link their account", %{request: request} do
+      response = Alexa.handle_request(request)
+      assert "Please link to your River Place account using the Alexa app" = say(response)
+    end
+
+    test "should respond with a LinkAccount card", %{request: request} do
+      response = Alexa.handle_request(request)
+      assert %Alexa.Card{type: "LinkAccount", title: "Link Account", content: "You can link your River Place account here"} = card(response)
+    end
+  end
+
+  describe "launch request" do
+    setup tags do
+      request = RiverPlaceSkillTest.launch_request
+      {:ok, request: request}
+    end
+
+    test "should respond with a greating", %{request: request} do
+      response = Alexa.handle_request(request)
+      assert "Ok. When would you like to play?" = say(response)
+    end
+
+    test "should leave the session open", %{request: request} do
+      response = Alexa.handle_request(request)
+      refute should_end_session(response)
+    end
+  end
+
+  describe "start create booking intent" do
+    setup tags do
+      request = RiverPlaceSkillTest.create_request("CreateBooking")
+      {:ok, request: request}
+    end
+
+    test "should respond with a greating", %{request: request} do
+      response = Alexa.handle_request(request)
+      assert "Ok. When would you like to play?" = say(response)
+    end
+
+    test "should leave the session open", %{request: request} do
+      response = Alexa.handle_request(request)
+      refute should_end_session(response)
+    end
+  end
+
+  describe "asking for help" do
+    setup tags do
+      request = RiverPlaceSkillTest.create_request("AMAZON.HelpIntent")
+      {:ok, request: request}
+    end
+
+    test "should respond with a greating", %{request: request} do
+      response = Alexa.handle_request(request)
+      assert "Ask me to book you a tennis court and tell me the which day and time you'd like to play." = say(response)
+    end
+
+    test "should leave the session open", %{request: request} do
+      response = Alexa.handle_request(request)
+      refute should_end_session(response)
+    end
+  end
+
+  describe "stop" do
+    setup tags do
+      request = RiverPlaceSkillTest.create_request("AMAZON.StopIntent")
+      {:ok, request: request}
+    end
+
+    test "should not say anything", %{request: request} do
+      response = Alexa.handle_request(request)
+      assert nil == say(response)
+    end
+
+    test "should close the session", %{request: request} do
+      response = Alexa.handle_request(request)
+      assert should_end_session(response)
+    end
+  end
+
+  describe "setting a date" do
+    setup tags do
+      request = RiverPlaceSkillTest.create_request("CreateBooking", %{"date" => "2016-01-01"})
+      {:ok, request: request}
+    end
+
+    test "should add the date to the session", %{request: request} do
+      response = Alexa.handle_request(request)
+      assert "2016-01-01" = attribute(response, "date")
+    end
+
+    test "should ask for the time of the booking", %{request: request} do
+      response = Alexa.handle_request(request)
+      assert "What time would you like to play?" = say(response)
+    end
+
+    test "should leave the session open", %{request: request} do
+      response = Alexa.handle_request(request)
+      refute should_end_session(response)
+    end
+  end
+
+  describe "setting a time" do
+    setup tags do
+      request = RiverPlaceSkillTest.create_request("CreateBooking", %{"time" => "18:00"})
+      {:ok, request: request}
+    end
+
+    test "should add the time to the session", %{request: request} do
+      response = Alexa.handle_request(request)
+      assert "06:00 PM" = attribute(response, "time")
+    end
+
+    test "should ask for the time of the booking", %{request: request} do
+      response = Alexa.handle_request(request)
+      assert "What day would you like to play?" = say(response)
+    end
+
+    test "should leave the session open", %{request: request} do
+      response = Alexa.handle_request(request)
+      refute should_end_session(response)
+    end
+  end
+
+  describe "setting a time and day when time slot in unavailable" do
+    setup tags do
+      request = RiverPlaceSkillTest.create_request("CreateBooking", %{"date" => "2016-01-01", "time" => "07:00"})
+      {:ok, request: request}
+    end
+
+    test "should tell me the court is not available", %{request: request} do
+      response = Alexa.handle_request(request)
+      assert "Sorry. 07:00 AM is not available" = say(response)
+    end
+
+    test "should leave the session open", %{request: request} do
+      response = Alexa.handle_request(request)
+      refute should_end_session(response)
+    end
+  end
+
+  describe "setting a time and day when time slot is available" do
+    setup tags do
+      request = RiverPlaceSkillTest.create_request("CreateBooking", %{"date" => "2016-01-01", "time" => "08:00"})
+      {:ok, request: request}
+    end
+
+    test "should tell me the court is not available", %{request: request} do
+      response = Alexa.handle_request(request)
+      assert "OK, I've booked Court 1 for you at 08:00 AM" = say(response)
+    end
+
+    test "should close the session", %{request: request} do
+      response = Alexa.handle_request(request)
+      assert should_end_session(response)
+    end
+  end
 end

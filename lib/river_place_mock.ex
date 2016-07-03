@@ -19,36 +19,36 @@ defmodule RiverPlaceMock do
 
   def time_slots("2016-01-01") do
     [
-      %TimeSlot{id: 1, start_time: "07:00 AM", end_time: "08:00 AM", booking_id: nil, facility_name: "Court 1"},
-      %TimeSlot{id: 2, start_time: "08:00 AM", end_time: "09:00 AM", booking_id: nil, facility_name: "Court 1"},
-      %TimeSlot{id: 3, start_time: "07:00 AM", end_time: "08:00 AM", booking_id: nil, facility_name: "Court 2"},
-      %TimeSlot{id: 4, start_time: "08:00 AM", end_time: "09:00 AM", booking_id: nil, facility_name: "Court 2"}
+      %TimeSlot{id: 1, start_time: "07:00 AM", end_time: "08:00 AM", status: "valid", booking_id: 123, facility_name: "Court 1"},
+      %TimeSlot{id: 2, start_time: "08:00 AM", end_time: "09:00 AM", status: "valid", booking_id: nil, facility_name: "Court 1"},
+      %TimeSlot{id: 3, start_time: "07:00 AM", end_time: "08:00 AM", status: "valid", booking_id: 456, facility_name: "Court 2"},
+      %TimeSlot{id: 4, start_time: "08:00 AM", end_time: "09:00 AM", status: "valid", booking_id: nil, facility_name: "Court 2"}
     ]
   end
 
   def time_slots("2016-01-02") do
     [
-      %TimeSlot{id: 1, start_time: "07:00 AM", end_time: "08:00 AM", booking_id: nil, facility_name: "Court 1"},
-      %TimeSlot{id: 2, start_time: "08:00 AM", end_time: "09:00 AM", booking_id: nil, facility_name: "Court 1"},
-      %TimeSlot{id: 3, start_time: "07:00 AM", end_time: "08:00 AM", booking_id: nil, facility_name: "Court 2"},
-      %TimeSlot{id: 4, start_time: "08:00 AM", end_time: "09:00 AM", booking_id: nil, facility_name: "Court 2"}
+      %TimeSlot{id: 1, start_time: "07:00 AM", end_time: "08:00 AM", status: "valid", booking_id: nil, facility_name: "Court 1"},
+      %TimeSlot{id: 2, start_time: "08:00 AM", end_time: "09:00 AM", status: "valid", booking_id: nil, facility_name: "Court 1"},
+      %TimeSlot{id: 3, start_time: "07:00 AM", end_time: "08:00 AM", status: "valid", booking_id: nil, facility_name: "Court 2"},
+      %TimeSlot{id: 4, start_time: "08:00 AM", end_time: "09:00 AM", status: "valid", booking_id: nil, facility_name: "Court 2"}
     ]
   end
 
-  def create_booking("2016-01-01", %{id: 1}) do
-    :ok
-  end
-
-  def create_booking("2016-01-02", %{id: 1}) do
+  def create_booking("2016-01-01", %{start_time: "07:00 AM"}) do
     :error
   end
 
-  def delete_booking("2016-01-01", %{id: 1}) do
-    :error
+  def create_booking("2016-01-01", %{start_time: "08:00 AM"}) do
+    :ok
   end
 
-  def delete_booking("2016-01-02", %{id: 1}) do
+  def delete_booking("2016-01-01", %{start_time: "07:00 AM"}) do
     :ok
+  end
+
+  def delete_booking("2016-01-01", _) do
+    :error
   end
 
 end

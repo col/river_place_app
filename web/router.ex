@@ -11,7 +11,11 @@ defmodule RiverPlaceApp.Router do
   end
 
   pipeline :api do
-    plug AlexaVerifier.JSONParser
+    plug Plug.Parsers,
+      parsers: [AlexaVerifier.JSONParser],
+      pass: ["*/*"],
+      json_decoder: Poison
+
     plug AlexaVerifier.Plug
   end
 

@@ -20,7 +20,7 @@ defmodule RiverPlaceApp.Mixfile do
     [mod: {RiverPlaceApp, []},
      applications: [:phoenix, :phoenix_html, :cowboy, :logger, :gettext,
                     :phoenix_ecto, :postgrex, :oauth2_server, :comeonin, :alexa,
-                    :river_place]]
+                    :river_place, :alexa_verifier]]
   end
 
   # Specifies which paths to compile per environment.
@@ -41,7 +41,7 @@ defmodule RiverPlaceApp.Mixfile do
      {:oauth2_server, github: "col/oauth2_server"},
      {:mariaex, "~> 0.7.7", override: true},
      {:comeonin, "~> 2.0"},
-     {:alexa, "~> 0.1.15"},
+     {:alexa, github: "col/alexa"},
      {:river_place, github: "col/river_place"},
      {:pavlov, git: "https://github.com/sproutapp/pavlov", only: :test},
      {:alexa_verifier, "~> 0.1.0"}]
