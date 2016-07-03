@@ -1,5 +1,5 @@
 defmodule RiverPlaceMock do
-  alias RiverPlace.{Facility, TimeSlot}
+  alias RiverPlace.TimeSlot
 
   def login("foo", "bar") do
     :ok

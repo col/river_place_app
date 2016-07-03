@@ -7,7 +7,7 @@ config :river_place_app, RiverPlaceApp.Endpoint,
   server: false
 
 # Print only warnings and errors during test
-config :logger, level: :warn
+config :logger, level: :debug
 
 config :river_place_app, RiverPlaceApp.Repo,
   adapter: Ecto.Adapters.MySQL,

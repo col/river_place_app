@@ -25,11 +25,10 @@ defmodule RiverPlaceApp.ModelCase do
     end
   end
 
-  setup tags do
+  setup _ do
     # unless tags[:async] do
     #   Ecto.Adapters.SQL.restart_test_transaction(RiverPlaceApp.Repo, [])
     # end
-
     :ok
   end
 
