@@ -9,6 +9,8 @@ To start your Phoenix app:
   * `mix oauth2_server.init`
   * Install Node.js dependencies with `npm install`
   * Start Phoenix endpoint with `mix phoenix.server`
+  * `mix oauth2_server.clientcreate --password --refresh-token --client-credentials`
+  * `/oauth/authorize?response_type=token&client_id=XXX&redirect_uri=http%3A%2F%2Fwww.google.com&scope=email`
 
 Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
 

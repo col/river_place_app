@@ -15,7 +15,6 @@ defmodule RiverPlaceApp do
       # Here you could define other workers and supervisors as children
       # worker(RiverPlaceApp.Worker, [arg1, arg2, arg3]),
       worker(RiverPlaceSkill, [[app_id: Application.get_env(:river_place_app, :app_id)]]),
-      worker(AlexaVerifier.CertCache, [])
     ]
 
     # See http://elixir-lang.org/docs/stable/elixir/Supervisor.html

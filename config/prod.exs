@@ -65,3 +65,5 @@ config :river_place_app, :river_place_api, RiverPlace
 # Finally import the config/prod.secret.exs
 # which should be versioned separately.
 import_config "prod.secret.exs"
+
+config :alexa_verifier, verifier_service_url: "http://verifier.colharris.com"

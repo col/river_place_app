@@ -35,7 +35,7 @@ config :phoenix, :stacktrace_depth, 20
 config :river_place_app, RiverPlaceApp.Repo,
   adapter: Ecto.Adapters.MySQL,
   username: "root",
-  password: "password",
+  password: "",
   database: "river_place_app_dev",
   hostname: "localhost",
   pool_size: 10
@@ -43,9 +43,11 @@ config :river_place_app, RiverPlaceApp.Repo,
 config :oauth2_server, Oauth2Server.Repo,
     adapter: Ecto.Adapters.MySQL,
     username: "root",
-    password: "password",
+    password: "",
     database: "river_place_app_dev",
     hostname: "localhost",
     pool_size: 10
 
 config :river_place_app, :river_place_api, RiverPlace
+
+config :alexa_verifier, verifier_service_url: "http://localhost:5000"
