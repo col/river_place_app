@@ -12,7 +12,7 @@ config :logger, level: :debug
 config :river_place_app, RiverPlaceApp.Repo,
   adapter: Ecto.Adapters.MySQL,
   username: "root",
-  password: "password",
+  password: "",
   database: "river_place_app_test",
   hostname: "localhost"
   # pool: 10
@@ -21,10 +21,12 @@ config :river_place_app, RiverPlaceApp.Repo,
 config :oauth2_server, Oauth2Server.Repo,
   adapter: Ecto.Adapters.MySQL,
   username: "root",
-  password: "password",
+  password: "",
   database: "river_place_app_test",
   hostname: "localhost"
   # pool: 10
   # pool: Ecto.Adapters.SQL.Sandbox
 
 config :river_place_app, :river_place_api, RiverPlaceMock
+
+config :alexa_verifier, verifier_service_url: "http://localhost:5000"

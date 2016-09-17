@@ -129,7 +129,7 @@ defmodule RiverPlaceSkillTest do
 
     test "should not say anything", %{request: request} do
       response = Alexa.handle_request(request)
-      assert nil == say(response)
+      assert "" == say(response)
     end
 
     test "should close the session", %{request: request} do

@@ -7,9 +7,6 @@ defmodule RiverPlaceApp.Api.AlexaControllerTest do
     {:ok, request} = File.read("test/data/book_court_request.json")
     {:ok, response} = File.read("test/data/book_court_response.json")
 
-    cert = File.read!("test/data/cert.pem")
-    AlexaVerifier.CertCache.put(@cert_url, cert)
-
     conn = conn(:post, "/api/command", request)
     |> put_req_header("content-type", "application/json")
     |> put_req_header("signaturecertchainurl", @cert_url)

@@ -64,7 +64,7 @@ defmodule RiverPlaceSkill do
   end
 
   def handle_intent("AMAZON.StopIntent", _, response) do
-    response |> should_end_session(true)
+    response |> say("") |> should_end_session(true)
   end
 
   def handle_intent("CreateBooking", request, response) do
