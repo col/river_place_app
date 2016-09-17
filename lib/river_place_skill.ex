@@ -156,6 +156,7 @@ defmodule RiverPlaceSkill do
       |> TimeSlot.for_time(time)
   end
 
+  defp to_12hr_time(""), do: nil
   defp to_12hr_time(time) do
     hours = String.split(time, ":") |> List.first |> String.to_integer
     suffix = if hours > 12, do: "PM", else: "AM"
