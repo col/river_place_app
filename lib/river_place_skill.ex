@@ -122,6 +122,7 @@ defmodule RiverPlaceSkill do
   defp request_attributes(request) do
     attribs = Request.attributes(request)
     Request.slot_attributes(request)
+      |> Enum.filter(fn({k,v}) -> v != "" end) |> Enum.into(%{})
       |> Map.update("time", nil, fn(t) -> to_12hr_time(t) end)
       |> Map.put_new("date", Map.get(attribs, "date"))
       |> Map.put_new("time", Map.get(attribs, "time"))

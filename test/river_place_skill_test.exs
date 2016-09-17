@@ -160,6 +160,28 @@ defmodule RiverPlaceSkillTest do
     end
   end
 
+  describe "setting an empty date" do
+    setup tags do
+      request = RiverPlaceSkillTest.create_request("CreateBooking", %{"date" => ""})
+      {:ok, request: request}
+    end
+
+    test "should not add the date to the session", %{request: request} do
+      response = Alexa.handle_request(request)
+      refute attribute(response, "date")
+    end
+
+    test "should ask when you'd like to play", %{request: request} do
+      response = Alexa.handle_request(request)
+      assert "Ok. When would you like to play?" = say(response)
+    end
+
+    test "should leave the session open", %{request: request} do
+      response = Alexa.handle_request(request)
+      refute should_end_session(response)
+    end
+  end
+
   describe "setting a time" do
     setup tags do
       request = RiverPlaceSkillTest.create_request("CreateBooking", %{"time" => "18:00"})
