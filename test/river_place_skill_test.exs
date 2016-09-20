@@ -251,7 +251,17 @@ defmodule RiverPlaceSkillTest do
 
     test "should tell me the court is not available", %{request: request} do
       response = Alexa.handle_request(request)
-      assert "Sorry. 07:00 AM is not available" = say(response)
+      assert "Sorry. 07:00 AM is not available. Would you like to choose a different time?" = say(response)
+    end
+
+    test "should reprompt me to choose a different time", %{request: request} do
+      response = Alexa.handle_request(request)
+      assert "Would you like to choose a different time?" = reprompt(response)
+    end
+
+    test "should set the question session attribute", %{request: request} do
+      response = Alexa.handle_request(request)
+      assert "ChooseDifferentTime?" = attribute(response, "question")
     end
 
     test "should leave the session open", %{request: request} do
@@ -269,6 +279,40 @@ defmodule RiverPlaceSkillTest do
     test "should tell me the court is not available", %{request: request} do
       response = Alexa.handle_request(request)
       assert "OK, I've booked Court 1 for you at 08:00 AM" = say(response)
+    end
+
+    test "should close the session", %{request: request} do
+      response = Alexa.handle_request(request)
+      assert should_end_session(response)
+    end
+  end
+
+  describe "ChooseDifferentTime? - Yes" do
+    setup tags do
+      request = RiverPlaceSkillTest.create_request("AMAZON.YesIntent", %{}, %{"question": "ChooseDifferentTime?"})
+      {:ok, request: request}
+    end
+
+    test "should ask for the time of the booking", %{request: request} do
+      response = Alexa.handle_request(request)
+      assert "Ok. When would you like to play?" = say(response)
+    end
+
+    test "should leave the session open", %{request: request} do
+      response = Alexa.handle_request(request)
+      refute should_end_session(response)
+    end
+  end
+
+  describe "ChooseDifferentTime? - No" do
+    setup tags do
+      request = RiverPlaceSkillTest.create_request("AMAZON.NoIntent", %{}, %{"question": "ChooseDifferentTime?"})
+      {:ok, request: request}
+    end
+
+    test "should not say anything", %{request: request} do
+      response = Alexa.handle_request(request)
+      assert "" == say(response)
     end
 
     test "should close the session", %{request: request} do

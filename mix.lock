@@ -1,4 +1,4 @@
-%{"alexa": {:git, "https://github.com/col/alexa.git", "91ab0956938bdd4c2002fbaca1b9d5294e24254c", []},
+%{"alexa": {:git, "https://github.com/col/alexa.git", "187ce7df36cad46e7c16a28f500a6af93810efdc", []},
   "alexa_verifier": {:git, "https://github.com/col/alexa_verifier.git", "36fe75022a30c21c066fbb386d7fd5cb9c2370b6", []},
   "certifi": {:hex, :certifi, "0.4.0", "a7966efb868b179023618d29a407548f70c52466bf1849b9e8ebd0e34b7ea11f", [:rebar3], []},
   "combine": {:hex, :combine, "0.9.1", "5fd778ee77032ae593bf79aedb8519d9e36283e4f869abd98c2d6029ca476db8", [:mix], []},

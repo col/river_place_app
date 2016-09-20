@@ -70,6 +70,36 @@ defmodule RiverPlaceSkill do
     response |> say("") |> should_end_session(true)
   end
 
+  def handle_intent("AMAZON.YesIntent", request, response) do
+    Response.attribute(response, "question")
+    |> handle_yes(request, response)
+  end
+
+  defp handle_yes("ChooseDifferentTime?", _, response) do
+    response
+      |> say("Ok. When would you like to play?")
+      |> should_end_session(false)
+  end
+
+  defp handle_yes(_, _, response) do
+    response
+      |> say("Ok. When would you like to play?")
+      |> should_end_session(false)
+  end
+
+  def handle_intent("AMAZON.NoIntent", request, response) do
+    Response.attribute(response, "question")
+    |> handle_no(request, response)
+  end
+
+  defp handle_no("ChooseDifferentTime?", _, response) do
+    response |> say("") |> should_end_session(true)
+  end
+
+  defp handle_no(_, _, response) do
+    response |> say("") |> should_end_session(true)
+  end
+
   def handle_intent("CreateBooking", request, response) do
     case login(request) do
       {:ok, _} ->
@@ -102,10 +132,11 @@ defmodule RiverPlaceSkill do
 
   defp create_booking(booking = %{time: time, available: []}, response) do
     response
-      |> say("Sorry. #{time} is not available")
+      |> say("Sorry. #{time} is not available. Would you like to choose a different time?")
       |> reprompt("Would you like to choose a different time?")
       |> Response.set_attribute("date", booking.date)
       |> Response.set_attribute("time", booking.time)
+      |> Response.set_attribute("question", "ChooseDifferentTime?")
       |> should_end_session(false)
   end
 
