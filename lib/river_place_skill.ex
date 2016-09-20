@@ -66,6 +66,10 @@ defmodule RiverPlaceSkill do
     response |> say("") |> should_end_session(true)
   end
 
+  def handle_intent("AMAZON.CancelIntent", _, response) do
+    response |> say("") |> should_end_session(true)
+  end
+
   def handle_intent("CreateBooking", request, response) do
     case login(request) do
       {:ok, _} ->

@@ -138,6 +138,23 @@ defmodule RiverPlaceSkillTest do
     end
   end
 
+  describe "cancel" do
+    setup tags do
+      request = RiverPlaceSkillTest.create_request("AMAZON.CancelIntent")
+      {:ok, request: request}
+    end
+
+    test "should not say anything", %{request: request} do
+      response = Alexa.handle_request(request)
+      assert "" == say(response)
+    end
+
+    test "should close the session", %{request: request} do
+      response = Alexa.handle_request(request)
+      assert should_end_session(response)
+    end
+  end
+
   describe "setting a date" do
     setup tags do
       request = RiverPlaceSkillTest.create_request("CreateBooking", %{"date" => "2016-01-01"})
