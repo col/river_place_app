@@ -6,7 +6,6 @@ defmodule RiverPlaceSkill do
   alias Oauth2Server.{Repo, OauthAccessToken}
 
   @river_place_api Application.get_env(:river_place_app, :river_place_api)
-  # @river_place_api RiverPlaceMock
 
   def login(%{session: %{user: %{accessToken: nil}}}) do
     {:error, "invalid token"}
@@ -108,11 +107,12 @@ defmodule RiverPlaceSkill do
 
   defp create_booking(%{date: date, time: time, available: [first|_]}, response) do
     case @river_place_api.create_booking(date, first) do
-      :ok ->
+      {:ok, entity} ->
         response
           |> say("OK, I've booked #{first.facility_name} for you at #{time}")
           |> should_end_session(true)
-      :error ->
+      {:error, message} ->
+        IO.puts "Create Booking Error: #{message}"
         response
           |> say("An error occurred while booking your court. Please try again later.")
           |> should_end_session(true)

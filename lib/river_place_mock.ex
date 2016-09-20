@@ -36,11 +36,11 @@ defmodule RiverPlaceMock do
   end
 
   def create_booking("2016-01-01", %{start_time: "07:00 AM"}) do
-    :error
+    {:error, "This is a sample error message"}
   end
 
   def create_booking("2016-01-01", %{start_time: "08:00 AM"}) do
-    :ok
+    {:ok, [%{"id": "1234"}]}
   end
 
   def delete_booking("2016-01-01", %{start_time: "07:00 AM"}) do
