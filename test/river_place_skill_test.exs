@@ -232,7 +232,29 @@ defmodule RiverPlaceSkillTest do
       refute attribute(response, "time")
     end
 
-    test "should ask for the time of the booking", %{request: request} do
+    test "should ask when you would like to play", %{request: request} do
+      response = Alexa.handle_request(request)
+      assert "Ok. When would you like to play?" = say(response)
+    end
+
+    test "should leave the session open", %{request: request} do
+      response = Alexa.handle_request(request)
+      refute should_end_session(response)
+    end
+  end
+
+  describe "setting a invalid time ie. 'PM'" do
+    setup tags do
+      request = RiverPlaceSkillTest.create_request("CreateBooking", %{"time" => "PM"})
+      {:ok, request: request}
+    end
+
+    test "should not add the time to the session", %{request: request} do
+      response = Alexa.handle_request(request)
+      refute attribute(response, "time")
+    end
+
+    test "should ask when you would like to play", %{request: request} do
       response = Alexa.handle_request(request)
       assert "Ok. When would you like to play?" = say(response)
     end

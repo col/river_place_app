@@ -55,7 +55,7 @@ defmodule RiverPlaceSkill do
       |> say("Good bye")
       |> should_end_session(true)
   end
-  
+
   def handle_intent("AMAZON.HelpIntent", _, response) do
     response
       |> say("Ask me to book you a tennis court and tell me the which day and time you'd like to play.")
@@ -198,6 +198,10 @@ defmodule RiverPlaceSkill do
     suffix = if hours > 12, do: "PM", else: "AM"
     hours = if hours > 12, do: hours = hours - 12, else: hours
     "#{String.rjust("#{hours}", 2, ?0)}:00 #{suffix}"
+  rescue
+    e in ArgumentError ->
+      IO.puts "Failed to convert '#{time}' to a valid time. Error: #{inspect(e)}"
+      nil
   end
 
   def say_time(time, format \\ "hms12") do
