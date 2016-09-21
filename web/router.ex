@@ -38,6 +38,8 @@ defmodule RiverPlaceApp.Router do
 
     get "/", PageController, :index
     get "/privacy", PageController, :privacy
+    get "/terms", PageController, :terms
+    get "/contact", PageController, :contact
     resources "/users", UserController
     resources "/sessions", SessionController, only: [:new, :create, :delete]
     get "/oauth/authorize", AuthorizeController, :index

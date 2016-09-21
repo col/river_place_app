@@ -7,5 +7,13 @@ defmodule RiverPlaceApp.PageController do
 
   def privacy(conn, _params) do
       render conn, "privacy.html"
-  end  
+  end
+
+  def terms(conn, _params) do
+      render conn, "terms.html"
+  end
+
+  def contact(conn, _params) do
+      render conn, "contact.html"
+  end
 end
