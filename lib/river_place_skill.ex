@@ -4,6 +4,7 @@ defmodule RiverPlaceSkill do
   alias RiverPlaceSkill.Booking
   alias Alexa.{Request, Response}
   alias Oauth2Server.{Repo, OauthAccessToken}
+  use Timex
 
   @river_place_api Application.get_env(:river_place_app, :river_place_api)
 
@@ -103,7 +104,9 @@ defmodule RiverPlaceSkill do
   def handle_intent("CreateBooking", request, response) do
     case login(request) do
       {:ok, _} ->
-        booking(request) |> create_booking(response)
+        booking(request)
+        |> validate_booking()
+        |> create_booking(response)
       {:error, msg} ->
         IO.puts "Login Failed: #{msg}"
         handle_auth_failure(response)
@@ -154,6 +157,14 @@ defmodule RiverPlaceSkill do
     end
   end
 
+  defp create_booking({:error, message}, response) do
+    response
+      |> say("#{message}. Would you like to choose a different date?")
+      |> reprompt("Would you like to choose a different date?")
+      |> Response.set_attribute("question", "ChooseDifferentTime?")
+      |> should_end_session(false)
+  end
+
   defp request_attributes(request) do
     attribs = Request.attributes(request)
     Request.slot_attributes(request)
@@ -172,6 +183,27 @@ defmodule RiverPlaceSkill do
       time: time,
       available: available_time_slots(date, time)
     }
+  end
+
+  defp validate_booking(booking = %{date: nil}), do: booking
+  defp validate_booking(booking = %{date: date}) do
+    case validate_date(date) do
+      :ok -> booking
+      error -> error
+    end
+  end
+
+
+  defp validate_date(date) do
+    datetime = Timex.parse!(date, "{YYYY}-{0M}-{D}")
+    cond do
+      Timex.after?(datetime, Timex.shift(Timex.today, days: 7)) ->
+        {:error, "You cannot book more than seven days in advance"}
+      Timex.before?(datetime, Timex.today) ->
+        {:error, "You cannot book a court in the past"}
+      true ->
+        :ok
+    end
   end
 
   defp available_time_slots(nil, nil) do

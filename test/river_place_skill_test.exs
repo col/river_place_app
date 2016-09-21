@@ -24,6 +24,10 @@ defmodule RiverPlaceSkillTest do
     Request.launch_request("test-app-id", nil, token)
   end
 
+  def todays_date do
+    date = Timex.format!(Timex.today, "{YYYY}-{0M}-{D}")
+  end
+
   setup tags do
     RiverPlaceSkillTest.clean_db
     user = RiverPlaceApp.User.changeset(%RiverPlaceApp.User{}, %{name: "Test", username: "test", email: "test@example.com", new_password: "111111", rp_username: "foo", rp_password: "bar"})
@@ -157,13 +161,13 @@ defmodule RiverPlaceSkillTest do
 
   describe "setting a date" do
     setup tags do
-      request = RiverPlaceSkillTest.create_request("CreateBooking", %{"date" => "2016-01-01"})
+      request = RiverPlaceSkillTest.create_request("CreateBooking", %{"date" => todays_date})
       {:ok, request: request}
     end
 
     test "should add the date to the session", %{request: request} do
       response = Alexa.handle_request(request)
-      assert "2016-01-01" = attribute(response, "date")
+      assert todays_date = attribute(response, "date")
     end
 
     test "should ask for the time of the booking", %{request: request} do
@@ -191,6 +195,72 @@ defmodule RiverPlaceSkillTest do
     test "should ask when you'd like to play", %{request: request} do
       response = Alexa.handle_request(request)
       assert "Ok. When would you like to play?" = say(response)
+    end
+
+    test "should leave the session open", %{request: request} do
+      response = Alexa.handle_request(request)
+      refute should_end_session(response)
+    end
+  end
+
+  describe "setting a date more than 7 days in the future" do
+    setup tags do
+      date = Timex.format!(Timex.shift(Timex.today, days: 8), "{YYYY}-{0M}-{D}")
+      request = RiverPlaceSkillTest.create_request("CreateBooking", %{"date" => date})
+      {:ok, request: request}
+    end
+
+    test "should not add the date to the session", %{request: request} do
+      response = Alexa.handle_request(request)
+      refute attribute(response, "date")
+    end
+
+    test "should tell the user they cannot book more than 7 days in advance", %{request: request} do
+      response = Alexa.handle_request(request)
+      assert "You cannot book more than seven days in advance. Would you like to choose a different date?" = say(response)
+    end
+
+    test "should reprompt the user to choose a different date", %{request: request} do
+      response = Alexa.handle_request(request)
+      assert "Would you like to choose a different date?" = reprompt(response)
+    end
+
+    test "should set the question session attribute", %{request: request} do
+      response = Alexa.handle_request(request)
+      assert "ChooseDifferentTime?" = attribute(response, "question")
+    end
+
+    test "should leave the session open", %{request: request} do
+      response = Alexa.handle_request(request)
+      refute should_end_session(response)
+    end
+  end
+
+  describe "setting a date in the past" do
+    setup tags do
+      date = Timex.format!(Timex.shift(Timex.today, days: -1), "{YYYY}-{0M}-{D}")
+      request = RiverPlaceSkillTest.create_request("CreateBooking", %{"date" => date})
+      {:ok, request: request}
+    end
+
+    test "should not add the date to the session", %{request: request} do
+      response = Alexa.handle_request(request)
+      refute attribute(response, "date")
+    end
+
+    test "should tell the user they cannot book in the past", %{request: request} do
+      response = Alexa.handle_request(request)
+      assert "You cannot book a court in the past. Would you like to choose a different date?" = say(response)
+    end
+
+    test "should reprompt the user to choose a different date", %{request: request} do
+      response = Alexa.handle_request(request)
+      assert "Would you like to choose a different date?" = reprompt(response)
+    end
+
+    test "should set the question session attribute", %{request: request} do
+      response = Alexa.handle_request(request)
+      assert "ChooseDifferentTime?" = attribute(response, "question")
     end
 
     test "should leave the session open", %{request: request} do
@@ -267,7 +337,7 @@ defmodule RiverPlaceSkillTest do
 
   describe "setting a time and day when time slot in unavailable" do
     setup tags do
-      request = RiverPlaceSkillTest.create_request("CreateBooking", %{"date" => "2016-01-01", "time" => "07:00"})
+      request = RiverPlaceSkillTest.create_request("CreateBooking", %{"date" => todays_date, "time" => "07:00"})
       {:ok, request: request}
     end
 
@@ -294,7 +364,7 @@ defmodule RiverPlaceSkillTest do
 
   describe "setting a time and day when time slot is available" do
     setup tags do
-      request = RiverPlaceSkillTest.create_request("CreateBooking", %{"date" => "2016-01-01", "time" => "08:00"})
+      request = RiverPlaceSkillTest.create_request("CreateBooking", %{"date" => todays_date, "time" => "08:00"})
       {:ok, request: request}
     end
 
