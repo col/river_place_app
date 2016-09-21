@@ -37,6 +37,7 @@ defmodule RiverPlaceApp.Router do
     pipe_through :browser # Use the default browser stack
 
     get "/", PageController, :index
+    get "/privacy", PageController, :privacy
     resources "/users", UserController
     resources "/sessions", SessionController, only: [:new, :create, :delete]
     get "/oauth/authorize", AuthorizeController, :index
