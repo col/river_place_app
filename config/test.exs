@@ -30,3 +30,4 @@ config :oauth2_server, Oauth2Server.Repo,
 config :river_place_app, :river_place_api, RiverPlaceMock
 
 config :alexa_verifier, verifier_service_url: "http://localhost:5000"
+config :alexa_verifier, verifier_client: AlexaVerifier.VerifierClientMock

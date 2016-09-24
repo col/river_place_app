@@ -10,7 +10,7 @@ defmodule RiverPlaceApp.Api.AlexaControllerTest do
     conn = conn(:post, "/api/command", request)
     |> put_req_header("content-type", "application/json")
     |> put_req_header("signaturecertchainurl", @cert_url)
-    |> put_req_header("signature", "asdf")
+    |> put_req_header("signature", "success")
     |> RiverPlaceApp.Endpoint.call([])
 
     actual_response = json_response(conn, 200)

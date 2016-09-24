@@ -1,5 +1,5 @@
 %{"alexa": {:git, "https://github.com/col/alexa.git", "187ce7df36cad46e7c16a28f500a6af93810efdc", []},
-  "alexa_verifier": {:git, "https://github.com/col/alexa_verifier.git", "071b9cc6c98d94b6d37c4d6eb8d73ec70c73bea7", []},
+  "alexa_verifier": {:git, "https://github.com/col/alexa_verifier.git", "f9a87694a718ad61b650fe5bcef2a8463757e4e0", []},
   "certifi": {:hex, :certifi, "0.4.0", "a7966efb868b179023618d29a407548f70c52466bf1849b9e8ebd0e34b7ea11f", [:rebar3], []},
   "combine": {:hex, :combine, "0.9.2", "cd3c8721f378ebe032487d8a4fa2ced3181a456a3c21b16464da8c46904bb552", [:mix], []},
   "comeonin": {:hex, :comeonin, "2.5.3", "ccd70ebf465eaf4e11fc5a13fd0f5be2538b6b4975d4f7a13d571670b31da060", [:mix, :make, :make], []},

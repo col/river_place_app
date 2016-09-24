@@ -5,9 +5,13 @@
     "outputSpeech": {
       "ssml": null,
       "type": "PlainText",
-      "text": "You need to link your account via the Alexa app"
+      "text": "Please link to your River Place account using the Alexa app"
     },
-    "card": null,
+    "card": {
+      "content": "You can link your River Place account here",
+      "title": "Link Account",
+      "type": "LinkAccount"
+    },
     "reprompt": null,
     "shouldEndSession": true
   }

@@ -46,6 +46,8 @@ config :river_place_app, :river_place_api, RiverPlaceMock
 
 config :porcelain, driver: Porcelain.Driver.Basic
 
+config :alexa_verifier, verifier_client: AlexaVerifier.VerifierClient
+
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
 import_config "#{Mix.env}.exs"
