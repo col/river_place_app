@@ -152,7 +152,7 @@ defmodule RiverPlaceSkill do
       {:error, message} ->
         IO.puts "Create Booking Error: #{message}"
         response
-          |> say("An error occurred while booking your court. Please try again later.")
+          |> say("#{message}. Please try again later.")
           |> should_end_session(true)
     end
   end

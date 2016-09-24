@@ -379,6 +379,23 @@ defmodule RiverPlaceSkillTest do
     end
   end
 
+  describe "receiving a error from a court booking request" do
+    setup tags do
+      request = RiverPlaceSkillTest.create_request("CreateBooking", %{"date" => todays_date, "time" => "09:00"})
+      {:ok, request: request}
+    end
+
+    test "should tell the user they've exceeded the booking limit for the week", %{request: request} do
+      response = Alexa.handle_request(request)
+      assert "You've exceeded the booking limit for the week. Please try again later." = say(response)
+    end
+
+    test "should close the session", %{request: request} do
+      response = Alexa.handle_request(request)
+      assert should_end_session(response)
+    end
+  end
+
   describe "ChooseDifferentTime? - Yes" do
     setup tags do
       request = RiverPlaceSkillTest.create_request("AMAZON.YesIntent", %{}, %{"question": "ChooseDifferentTime?"})
