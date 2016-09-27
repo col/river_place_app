@@ -269,6 +269,38 @@ defmodule RiverPlaceSkillTest do
     end
   end
 
+  describe "setting the date as '2016'" do
+    setup tags do
+      request = RiverPlaceSkillTest.create_request("CreateBooking", %{"date" => "2016"})
+      {:ok, request: request}
+    end
+
+    test "should not add the date to the session", %{request: request} do
+      response = Alexa.handle_request(request)
+      refute attribute(response, "date")
+    end
+
+    test "should tell the user they cannot book in the past", %{request: request} do
+      response = Alexa.handle_request(request)
+      assert "That's not a valid date. Would you like to choose a different date?" = say(response)
+    end
+
+    test "should reprompt the user to choose a different date", %{request: request} do
+      response = Alexa.handle_request(request)
+      assert "Would you like to choose a different date?" = reprompt(response)
+    end
+
+    test "should set the question session attribute", %{request: request} do
+      response = Alexa.handle_request(request)
+      assert "ChooseDifferentTime?" = attribute(response, "question")
+    end
+
+    test "should leave the session open", %{request: request} do
+      response = Alexa.handle_request(request)
+      refute should_end_session(response)
+    end
+  end
+
   describe "setting a time" do
     setup tags do
       request = RiverPlaceSkillTest.create_request("CreateBooking", %{"time" => "18:00"})

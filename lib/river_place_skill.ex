@@ -204,6 +204,10 @@ defmodule RiverPlaceSkill do
       true ->
         :ok
     end
+  rescue
+    e in Timex.Parse.ParseError ->
+      IO.puts "Failed to convert '#{date}' to a valid date. Error: #{inspect(e)}"
+      {:error, "That's not a valid date"}
   end
 
   defp available_time_slots(nil, nil) do
