@@ -5,8 +5,7 @@
 To start your Phoenix app:
 
   * Install dependencies with `mix deps.get`
-  * Create and migrate your database with `mix ecto.create && mix ecto.migrate`
-  * `mix oauth2_server.init`
+  * Create and migrate your database with `mix oauth2_server.init && mix ecto.create && mix ecto.migrate`
   * Install Node.js dependencies with `npm install`
   * Start Phoenix endpoint with `mix phoenix.server`
   * `mix oauth2_server.clientcreate --password --refresh-token --client-credentials`

@@ -19,6 +19,10 @@ defmodule RiverPlaceApp.Router do
     plug AlexaVerifier.Plug
   end
 
+  pipeline :messenger do
+    plug :accepts, ["html", "json"]
+  end
+
   pipeline :secured_api do
     plug :fetch_session
     plug :accepts, ["json"]
@@ -31,6 +35,12 @@ defmodule RiverPlaceApp.Router do
 
     post "/command", AlexaController, :handle_request
     get "/mock_command", AlexaController, :mock_request
+  end
+
+  scope "/messenger", RiverPlaceApp, as: :messenger do
+    pipe_through :messenger
+
+    get "/webhook", MessengerController, :webhook
   end
 
   scope "/", RiverPlaceApp do

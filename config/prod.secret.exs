@@ -17,3 +17,4 @@ config :oauth2_server, Oauth2Server.Repo,
   pool_size: 20
 
 config :river_place_app, :app_id, [System.get_env("RIVER_PLACE_SKILL_APP_ID"), "RiverPlaceSkill"]
+config :river_place_app, :verify_token, System.get_env("MESSENGER_VERIFY_TOKEN")

@@ -43,6 +43,7 @@ config :oauth2_server, Oauth2Server.Settings,
 
 config :river_place_app, :app_id, "RiverPlaceSkill"
 config :river_place_app, :river_place_api, RiverPlaceMock
+config :river_place_app, :verify_token, "sample-verify-token"
 
 config :porcelain, driver: Porcelain.Driver.Basic
 
