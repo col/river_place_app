@@ -18,3 +18,4 @@ config :oauth2_server, Oauth2Server.Repo,
 
 config :river_place_app, :app_id, [System.get_env("RIVER_PLACE_SKILL_APP_ID"), "RiverPlaceSkill"]
 config :river_place_app, :verify_token, System.get_env("MESSENGER_VERIFY_TOKEN")
+config :river_place_app, :page_access_token, System.get_env("MESSENGER_PAGE_ACCESS_TOKEN")

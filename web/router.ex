@@ -40,7 +40,8 @@ defmodule RiverPlaceApp.Router do
   scope "/messenger", RiverPlaceApp, as: :messenger do
     pipe_through :messenger
 
-    get "/webhook", MessengerController, :webhook
+    get "/webhook", MessengerController, :validate
+    post "/webhook", MessengerController, :webhook
   end
 
   scope "/", RiverPlaceApp do
