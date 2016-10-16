@@ -20,6 +20,11 @@ defmodule RiverPlaceApp.Router do
   end
 
   pipeline :messenger do
+    plug Plug.Parsers,
+      parsers: [:json],
+      pass: ["*/*"],
+      json_decoder: Poison
+
     plug :accepts, ["html", "json"]
   end
 

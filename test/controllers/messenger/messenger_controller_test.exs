@@ -13,8 +13,10 @@ defmodule RiverPlaceApp.MessengerControllerTest do
   end
 
   test "POST /messenger/webhook" do
-    request = %{"object" => "page"}
-    conn = post conn, "/messenger/webhook", request
+    request = "{\"object\": \"page\", \"message\": \"hello\"}"
+    conn = conn
+      |> put_req_header("content-type", "application/json")
+      |> post "/messenger/webhook", request
     assert json_response(conn, 200) == %{"message" => "hello"}
   end
 

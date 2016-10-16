@@ -18,7 +18,7 @@ defmodule RiverPlaceApp.MessengerController do
   def webhook(conn, params) do
     Logger.debug "POST WebHook - Params: #{inspect(params)}"
     conn = put_resp_content_type(conn, "application/json")
-    send_resp(conn, 200, Poison.encode!(%{message: "hello"}))
+    send_resp(conn, 200, Poison.encode!(%{message: params["message"]}))
   end
 
 end
