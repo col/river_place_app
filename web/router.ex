@@ -10,7 +10,7 @@ defmodule RiverPlaceApp.Router do
     plug RiverPlaceApp.Auth, repo: RiverPlaceApp.Repo
   end
 
-  pipeline :api do
+  pipeline :alexa do
     plug Plug.Parsers,
       parsers: [AlexaVerifier.JSONParser],
       pass: ["*/*"],
@@ -19,7 +19,7 @@ defmodule RiverPlaceApp.Router do
     plug AlexaVerifier.Plug
   end
 
-  pipeline :messenger do
+  pipeline :api do
     plug Plug.Parsers,
       parsers: [:json],
       pass: ["*/*"],
@@ -36,17 +36,23 @@ defmodule RiverPlaceApp.Router do
   end
 
   scope "/api", RiverPlaceApp.Api, as: :api do
-    pipe_through :api
+    pipe_through :alexa
 
     post "/command", AlexaController, :handle_request
     get "/mock_command", AlexaController, :mock_request
   end
 
   scope "/messenger", RiverPlaceApp, as: :messenger do
-    pipe_through :messenger
+    pipe_through :api
 
     get "/webhook", MessengerController, :validate
     post "/webhook", MessengerController, :webhook
+  end
+
+  scope "/api.ai", RiverPlaceApp, as: :api_ai do
+    pipe_through :api
+
+    post "/webhook", ApiAiController, :webhook
   end
 
   scope "/", RiverPlaceApp do
